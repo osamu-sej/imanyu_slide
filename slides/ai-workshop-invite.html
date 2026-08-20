@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>AI活用 社内勉強会のご案内</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Zen+Kaku+Gothic+New:wght@500;700;900&family=Manrope:wght@700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F3EA; --surface:#FFFFFF; --ink:#232323; --sub:#5C594F; --dim:#8a8474; --line:#ded7c6;
+  --accent:#1E8A3C; --accent-deep:#14682C; --accent-tint:#E3EFE4; --spark:#FFD84D;
+  --ink-surface:#232323; --on-dark:#F6F3EA; --accent-on-dark:#52c46e; --line-on-dark:#3d3d3d;
+  --radius:4px;
+  --ff:"Zen Kaku Gothic New","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --ff-en:"Manrope","Helvetica Neue",Arial,sans-serif;
+}
+html,body{margin:0;padding:0;background:var(--bg);overflow:hidden}
+.s{
+  position:absolute;top:50%;left:50%;width:960px;height:540px;
+  transform:translate(-50%,-50%) scale(var(--k,1));transform-origin:center center;
+  background:var(--bg);color:var(--ink);font-family:var(--ff);font-weight:500;
+  visibility:hidden;opacity:0;display:flex;flex-direction:column;
+}
+.s.active{visibility:visible;opacity:1}
+.wrap{box-sizing:border-box;padding:44px 56px 52px;height:100%;display:flex;flex-direction:column}
+.ki{font-family:var(--ff-en);font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--dim)}
+h1{font-size:60px;font-weight:900;line-height:1.24;margin:0;letter-spacing:.01em}
+h2{font-size:32px;font-weight:700;line-height:1.34;margin:8px 0 0}
+.rule{height:1px;background:var(--line);margin-top:16px}
+.body{flex:1;display:flex;flex-direction:column;gap:18px;padding-top:24px}
+.pn{position:absolute;bottom:18px;right:22px;font-family:var(--ff-en);font-size:11px;font-weight:700;letter-spacing:.08em;color:var(--dim)}
+.mark{background:var(--spark);color:var(--ink);padding:1px 6px;border-radius:2px;font-weight:700}
+.num{font-family:var(--ff-en);font-weight:800;color:var(--accent-deep)}
+
+/* 1 表紙 — 型H ドット帯 */
+.cv-band{position:absolute;left:0;right:0;height:12px}
+.cv-in{position:absolute;left:64px;right:64px;top:50%;transform:translateY(-50%)}
+.cv-sub{font-size:17px;color:var(--sub);margin-top:18px;line-height:1.8}
+.cv-foot{display:flex;justify-content:space-between;align-items:flex-end;
+  margin-top:26px;padding-top:16px;border-top:1px solid var(--line);font-size:14px;color:var(--sub)}
+
+/* 2 結論 */
+.lead{font-size:42px;font-weight:700;line-height:1.42}
+.lead-sub{font-size:17px;color:var(--sub);line-height:1.9;margin-top:16px}
+.chips{display:flex;gap:14px;margin-top:30px}
+.chip{flex:1;background:var(--accent-tint);color:var(--ink);border-radius:var(--radius);
+  padding:20px 20px;display:flex;flex-direction:column;gap:6px}
+.chip b{font-size:17px;font-weight:700}
+.chip span{font-size:13px;color:var(--sub)}
+
+/* 3 根拠 */
+.stat{display:flex;align-items:flex-end;justify-content:space-between}
+.stat-l{font-size:18px;font-weight:700}
+.stat-n{font-size:64px;line-height:1}
+.bar{height:52px;background:var(--line);border-radius:var(--radius);overflow:hidden;margin-top:14px}
+.bar i{display:block;height:100%;background:var(--accent)}
+.src{font-size:12px;color:var(--dim);margin-top:10px}
+.why{border-top:1px solid var(--line);padding-top:20px;margin-top:4px}
+.why-l{font-size:14px;color:var(--sub)}
+.why-row{display:flex;align-items:center;gap:16px;margin-top:12px}
+.why-bar{flex:1;height:26px;background:var(--line);border-radius:var(--radius);overflow:hidden}
+.why-bar i{display:block;height:100%;background:var(--accent-deep)}
+.why-t{font-size:17px;font-weight:700;white-space:nowrap}
+.close{font-size:16px;color:var(--sub);margin-top:26px;padding-right:110px}
+
+/* 4 全4回 — 縦 ladder */
+.prow{display:flex;align-items:center;gap:20px;padding:13px 0;border-bottom:1px solid var(--line)}
+.prow:first-child{padding-top:0}
+.steps{width:52px;display:flex;align-items:flex-end;gap:4px;height:50px}
+.steps i{width:10px;background:var(--accent-deep);border-radius:1px}
+.pmeta{width:150px}
+.pmeta b{display:block;font-family:var(--ff-en);font-size:13px;font-weight:800;color:var(--accent-deep);letter-spacing:.06em}
+.pmeta span{display:block;font-size:14px;color:var(--sub);margin-top:3px}
+.ptitle{width:196px;font-size:19px;font-weight:700}
+.pdesc{flex:1;font-size:15px;color:var(--sub);line-height:1.7}
+
+/* 5 60分 */
+.scale{display:flex;font-family:var(--ff-en);font-size:12px;font-weight:700;color:var(--dim)}
+.tl{display:flex;height:116px;border-radius:var(--radius);overflow:hidden}
+.tl i{display:block;height:100%}
+.tlab{display:flex;margin-top:14px}
+.tlab div{padding-right:18px;box-sizing:border-box}
+.tlab b{display:block;font-size:18px;font-weight:700}
+.tlab span{display:block;font-size:13px;color:var(--sub);margin-top:5px;line-height:1.7}
+.strip{margin-top:28px;background:var(--accent-tint);border-radius:var(--radius);
+  padding:16px 20px;font-size:16px;padding-right:110px}
+
+/* 6 チケット */
+.ticket{display:flex;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface)}
+.tbody{flex:1;display:flex;flex-wrap:wrap}
+.tcell{width:50%;box-sizing:border-box;padding:34px 28px;position:relative}
+.tcell:nth-child(1),.tcell:nth-child(2){border-bottom:1px solid var(--line)}
+.tcell:nth-child(odd){border-right:1px solid var(--line)}
+.tcell .k{font-family:var(--ff-en);font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--dim)}
+.tcell b{display:block;font-size:20px;font-weight:700;margin-top:8px}
+.tcell span{display:block;font-size:13px;color:var(--sub);margin-top:6px;line-height:1.7}
+.tick{position:absolute;top:30px;right:26px;font-size:17px;color:var(--accent-deep)}
+.tstub{width:208px;box-sizing:border-box;padding:34px 28px;border-left:2px dashed var(--line);
+  background:var(--bg);display:flex;flex-direction:column;gap:16px;border-radius:0 var(--radius) var(--radius) 0}
+.tstub div .k{font-family:var(--ff-en);font-size:11px;font-weight:800;letter-spacing:.12em;color:var(--dim)}
+.tstub div b{display:block;font-size:17px;font-weight:700;margin-top:5px}
+
+/* 7 決めていただきたいこと */
+.dark{background:var(--ink-surface);color:var(--on-dark);border-radius:var(--radius);padding:46px 40px}
+.dark .k{font-family:var(--ff-en);font-size:11px;font-weight:800;letter-spacing:.14em;color:var(--accent-on-dark)}
+.dark b{display:block;font-size:30px;font-weight:700;margin-top:14px;line-height:1.45}
+.dark span{display:block;font-size:15px;margin-top:14px;opacity:.72;line-height:1.8}
+.dstrip{margin-top:32px;font-size:19px;line-height:1.9;padding-right:110px}
+.dstrip em{font-style:normal;font-weight:700}
+</style>
+</head>
+<body>
+<!-- kit:slide-zukai-kit v1.1 theme:D use:internal style:visual viz:high -->
+
+<!-- 1 表紙 -->
+<div class="s active">
+  <div class="cv-band" style="top:56px"><svg viewBox="0 0 960 12" style="width:100%;height:12px;display:block"><circle cx="24" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="48" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="72" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="96" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="120" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="144" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="168" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="192" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="216" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="240" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="264" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="288" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="312" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="336" cy="6" r="5" fill="var(--accent)"/><circle cx="360" cy="6" r="5" fill="var(--accent)"/><circle cx="384" cy="6" r="5" fill="var(--accent)"/><circle cx="408" cy="6" r="5" fill="var(--accent)"/><circle cx="432" cy="6" r="5" fill="var(--accent)"/><circle cx="456" cy="6" r="5" fill="var(--accent)"/><circle cx="480" cy="6" r="5" fill="var(--accent)"/><circle cx="504" cy="6" r="5" fill="var(--accent)"/><circle cx="528" cy="6" r="5" fill="var(--accent)"/><circle cx="552" cy="6" r="5" fill="var(--accent)"/><circle cx="576" cy="6" r="5" fill="var(--accent)"/><circle cx="600" cy="6" r="5" fill="var(--accent)"/><circle cx="624" cy="6" r="5" fill="var(--accent)"/><circle cx="648" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="672" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="696" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="720" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="744" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="768" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="792" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="816" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="840" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="864" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="888" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="912" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="936" cy="6" r="5" fill="var(--accent-deep)"/></svg></div>
+  <div class="cv-in">
+    <div class="ki">INTERNAL</div>
+    <h1 style="margin-top:14px">AI活用 社内勉強会</h1>
+    <div class="cv-sub">全4回・2026年9月開催<br>毎週水曜 17:00–18:00 ／ オンライン・各60分</div>
+    <div class="cv-foot">
+      <div>各部門長 各位 ／ 全社員</div>
+      <div>OP情報チーム　2026年8月21日</div>
+    </div>
+  </div>
+  <div class="cv-band" style="bottom:56px"><svg viewBox="0 0 960 12" style="width:100%;height:12px;display:block"><circle cx="24" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="48" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="72" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="96" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="120" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="144" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="168" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="192" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="216" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="240" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="264" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="288" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="312" cy="6" r="5" fill="var(--accent-tint)"/><circle cx="336" cy="6" r="5" fill="var(--accent)"/><circle cx="360" cy="6" r="5" fill="var(--accent)"/><circle cx="384" cy="6" r="5" fill="var(--accent)"/><circle cx="408" cy="6" r="5" fill="var(--accent)"/><circle cx="432" cy="6" r="5" fill="var(--accent)"/><circle cx="456" cy="6" r="5" fill="var(--accent)"/><circle cx="480" cy="6" r="5" fill="var(--accent)"/><circle cx="504" cy="6" r="5" fill="var(--accent)"/><circle cx="528" cy="6" r="5" fill="var(--accent)"/><circle cx="552" cy="6" r="5" fill="var(--accent)"/><circle cx="576" cy="6" r="5" fill="var(--accent)"/><circle cx="600" cy="6" r="5" fill="var(--accent)"/><circle cx="624" cy="6" r="5" fill="var(--accent)"/><circle cx="648" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="672" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="696" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="720" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="744" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="768" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="792" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="816" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="840" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="864" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="888" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="912" cy="6" r="5" fill="var(--accent-deep)"/><circle cx="936" cy="6" r="5" fill="var(--accent-deep)"/></svg></div>
+  <div class="pn">1 / 7</div>
+</div>
+
+<!-- 2 結論 -->
+<div class="s">
+  <div class="wrap">
+    <div class="ki">CONCLUSION</div>
+    <h2>結論</h2>
+    <div class="rule"></div>
+    <div class="body">
+      <div>
+        <div class="lead">9月から全4回<br>AI活用の社内勉強会を開きます</div>
+        <div class="lead-sub">全社員が対象です。各部門で <span class="mark">業務時間内での参加</span> を認めてください</div>
+      </div>
+      <div class="chips">
+        <div class="chip"><b>毎週水曜 17:00–18:00</b><span>全4回・各60分</span></div>
+        <div class="chip"><b>オンライン開催</b><span>会議室の確保は不要</span></div>
+        <div class="chip"><b>初回 9月2日（水）</b><span>申込締切 8月28日（金）</span></div>
+      </div>
+    </div>
+  </div>
+  <div class="pn">2 / 7</div>
+</div>
+
+<!-- 3 根拠 -->
+<div class="s">
+  <div class="wrap">
+    <div class="ki">EVIDENCE</div>
+    <h2>業務でAIを使っているのは3割</h2>
+    <div class="rule"></div>
+    <div class="body">
+      <div>
+        <div class="stat">
+          <div class="stat-l">業務でAIを使っている</div>
+          <div class="stat-n num">31%</div>
+        </div>
+        <div class="bar"><i style="width:31%"></i></div>
+        <div class="src">社内アンケート（2026年7月実施・回答412名）</div>
+      </div>
+      <div class="why">
+        <div class="why-l">使っていない人に理由を聞くと、最も多かったのは</div>
+        <div class="why-row">
+          <div class="why-t">何に使えるか分からない</div>
+          <div class="why-bar"><i style="width:48%"></i></div>
+          <div class="why-t num" style="font-size:24px">48%</div>
+        </div>
+      </div>
+      <div class="close">足りていないのは知識ではなく、試すきっかけです</div>
+    </div>
+  </div>
+  <div class="pn">3 / 7</div>
+</div>
+
+<!-- 4 全4回 -->
+<div class="s">
+  <div class="wrap">
+    <div class="ki">PROGRAM</div>
+    <h2>全4回で「触る」から「組み込む」まで</h2>
+    <div class="rule"></div>
+    <div class="body" style="gap:0">
+      <div class="prow">
+        <div class="steps"><i style="height:12px"></i></div>
+        <div class="pmeta"><b>SESSION 01</b><span>9月2日（水）</span></div>
+        <div class="ptitle">まず触る</div>
+        <div class="pdesc">要約と下書きをその場で試す</div>
+      </div>
+      <div class="prow">
+        <div class="steps"><i style="height:12px"></i><i style="height:24px"></i></div>
+        <div class="pmeta"><b>SESSION 02</b><span>9月9日（水）</span></div>
+        <div class="ptitle">調べる・整理する</div>
+        <div class="pdesc">長い資料から要点を取り出す</div>
+      </div>
+      <div class="prow">
+        <div class="steps"><i style="height:12px"></i><i style="height:24px"></i><i style="height:36px"></i></div>
+        <div class="pmeta"><b>SESSION 03</b><span>9月16日（水）</span></div>
+        <div class="ptitle">つくる</div>
+        <div class="pdesc">提案書のたたき台を60分で組む</div>
+      </div>
+      <div class="prow" style="border-bottom:0">
+        <div class="steps"><i style="height:12px"></i><i style="height:24px"></i><i style="height:36px"></i><i style="height:48px"></i></div>
+        <div class="pmeta"><b>SESSION 04</b><span>9月23日（水）</span></div>
+        <div class="ptitle">仕事に組み込む</div>
+        <div class="pdesc">自分の業務で試した結果を持ち寄る</div>
+      </div>
+    </div>
+  </div>
+  <div class="pn">4 / 7</div>
+</div>
+
+<!-- 5 60分 -->
+<div class="s">
+  <div class="wrap">
+    <div class="ki">60 MIN</div>
+    <h2>60分の使い方</h2>
+    <div class="rule"></div>
+    <div class="body">
+      <div>
+        <div class="scale"><div style="width:25%">0 MIN</div><div style="width:50%">15</div><div style="width:25%;display:flex;justify-content:space-between"><span>45</span><span>60</span></div></div>
+        <div class="tl" style="margin-top:8px">
+          <i style="width:25%;background:var(--accent-tint)"></i>
+          <i style="width:50%;background:var(--accent)"></i>
+          <i style="width:25%;background:var(--accent-deep)"></i>
+        </div>
+        <div class="tlab">
+          <div style="width:25%"><b>デモを見る</b><span>15分</span></div>
+          <div style="width:50%"><b>手を動かす</b><span>30分・この時間が本体です</span></div>
+          <div style="width:25%"><b>持ち帰りを決める</b><span>15分</span></div>
+        </div>
+      </div>
+      <div class="strip">その場で1つ作って終わります。宿題はありません</div>
+    </div>
+  </div>
+  <div class="pn">5 / 7</div>
+</div>
+
+<!-- 6 チケット -->
+<div class="s">
+  <div class="wrap">
+    <div class="ki">TICKET</div>
+    <h2>参加に必要なもの</h2>
+    <div class="rule"></div>
+    <div class="body">
+      <div class="ticket">
+        <div class="tbody">
+          <div class="tcell"><div class="k">01 — KNOWLEDGE</div><b>事前知識は不要</b><span>「使ったことがない」前提で進めます</span><div class="tick">✓</div></div>
+          <div class="tcell"><div class="k">02 — DEVICE</div><b>PC 1台</b><span>社内ネットワークにつながる端末</span><div class="tick">✓</div></div>
+          <div class="tcell"><div class="k">03 — ATTENDANCE</div><b>1回だけでも可</b><span>全回参加は必須ではありません</span><div class="tick">✓</div></div>
+          <div class="tcell"><div class="k">04 — REPLAY</div><b>録画あり</b><span>欠席分は後日視聴できます</span><div class="tick">✓</div></div>
+        </div>
+        <div class="tstub">
+          <div><div class="k">TO</div><b>全社員</b></div>
+          <div><div class="k">APPLY</div><b>社内ポータル</b></div>
+          <div><div class="k">DEADLINE</div><b>8月28日（金）</b></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="pn">6 / 7</div>
+</div>
+
+<!-- 7 決めていただきたいこと -->
+<div class="s">
+  <div class="wrap">
+    <div class="ki">DECISION</div>
+    <h2>決めていただきたいこと</h2>
+    <div class="rule"></div>
+    <div class="body">
+      <div class="dark">
+        <div class="k">TO BE APPROVED</div>
+        <b>所属メンバーの業務時間内での参加</b>
+        <span>毎週水曜 17:00–18:00 × 全4回。初回は9月2日（水）です。<br>会議室の確保・出張費などの費用は発生しません</span>
+      </div>
+      <div class="dstrip"><em>各部門長</em>にて <span class="mark">8月28日（金）</span> までにご判断ください</div>
+    </div>
+  </div>
+  <div class="pn">7 / 7</div>
+</div>
+
+<script>
+function fit(){document.documentElement.style.setProperty('--k',Math.min(innerWidth/960,innerHeight/540))}
+addEventListener('resize',fit);fit();
+let i=0;const slides=document.querySelectorAll('.s');
+function show(n){i=Math.max(0,Math.min(slides.length-1,n));slides.forEach((el,j)=>el.classList.toggle('active',j===i))}
+addEventListener('keydown',e=>{if(e.key==='ArrowRight'||e.key===' ')show(i+1);if(e.key==='ArrowLeft')show(i-1)});
+show(0);
+</script>
+</body>
+</html>

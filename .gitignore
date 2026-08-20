@@ -4,3 +4,6 @@ node_modules/
 # スライド生成時の中間物
 shots/
 *.tmp.html
+
+# 視覚検証の撮影PNG（履歴確認用・ローカルのみ）
+slides/.work/
