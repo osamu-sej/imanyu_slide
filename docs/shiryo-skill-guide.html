@@ -1,0 +1,396 @@
+<title>どのスキルで資料を作るか</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho+B1:wght@700&family=IBM+Plex+Sans+JP:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ground:#F1F3F6;
+  --surface:#FFFFFF;
+  --surface-2:#E8ECF1;
+  --ink:#1B2430;
+  --ink-soft:#5A6675;
+  --ink-faint:#8B95A3;
+  --rule:#D2D8E0;
+  --rule-strong:#B5BEC9;
+  --accent:#2F5D8C;
+  --accent-soft:#DCE6F0;
+  --signal:#9C5F1C;
+  --signal-soft:#F0E3D2;
+  --ff-display:"Shippori Mincho B1","Hiragino Mincho ProN","Yu Mincho",serif;
+  --ff-body:"IBM Plex Sans JP","Hiragino Sans","Yu Gothic","Meiryo",sans-serif;
+  --ff-mono:"IBM Plex Mono","SFMono-Regular",Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#12161C; --surface:#1A2029; --surface-2:#222A34;
+    --ink:#E4E8ED; --ink-soft:#9AA5B2; --ink-faint:#6C7784;
+    --rule:#2C343E; --rule-strong:#3D4753;
+    --accent:#84AEDA; --accent-soft:#1E2B3A;
+    --signal:#D69A55; --signal-soft:#2E2519;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#12161C; --surface:#1A2029; --surface-2:#222A34;
+  --ink:#E4E8ED; --ink-soft:#9AA5B2; --ink-faint:#6C7784;
+  --rule:#2C343E; --rule-strong:#3D4753;
+  --accent:#84AEDA; --accent-soft:#1E2B3A;
+  --signal:#D69A55; --signal-soft:#2E2519;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;background:var(--ground);color:var(--ink);
+  font-family:var(--ff-body);font-size:15px;line-height:1.85;
+  -webkit-font-smoothing:antialiased;
+}
+.page{max-width:1080px;margin:0 auto;padding:56px 28px 96px;display:flex;flex-direction:column;gap:60px}
+@media (max-width:640px){.page{padding:36px 18px 64px;gap:44px}}
+
+.eyebrow{
+  font-family:var(--ff-mono);font-size:11.5px;font-weight:600;
+  letter-spacing:.16em;text-transform:uppercase;color:var(--ink-faint);
+}
+h1{
+  font-family:var(--ff-display);font-weight:700;
+  font-size:clamp(30px,5.2vw,46px);line-height:1.32;margin:14px 0 0;
+  text-wrap:balance;letter-spacing:.01em;
+}
+h2{
+  font-family:var(--ff-display);font-weight:700;
+  font-size:clamp(20px,3vw,26px);line-height:1.4;margin:0;
+  text-wrap:balance;
+}
+h3{font-size:15px;font-weight:600;margin:0;line-height:1.6}
+p{margin:0;max-width:64ch}
+a{color:var(--accent)}
+
+.lede{font-size:17px;line-height:1.9;color:var(--ink-soft);margin-top:18px;max-width:52ch;text-wrap:pretty}
+.head-rule{height:2px;background:var(--ink);margin-top:30px;opacity:.85}
+
+section{display:flex;flex-direction:column;gap:24px}
+.sec-head{display:flex;flex-direction:column;gap:10px;
+  border-top:1px solid var(--rule-strong);padding-top:18px}
+.sec-note{color:var(--ink-soft);font-size:14.5px;max-width:62ch}
+
+code,.mono{font-family:var(--ff-mono);font-size:.92em;font-weight:500}
+.skill{
+  font-family:var(--ff-mono);font-size:13px;font-weight:600;
+  color:var(--accent);background:var(--accent-soft);
+  padding:2px 8px;border-radius:3px;white-space:nowrap;
+}
+
+/* ── 決定フロー ── */
+.tree{display:flex;flex-direction:column;gap:0;
+  background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+  padding:26px 24px;overflow-x:auto}
+.tree-q{font-family:var(--ff-mono);font-size:12px;font-weight:600;
+  letter-spacing:.1em;color:var(--signal);text-transform:uppercase;margin-bottom:16px}
+.branches{display:flex;flex-direction:column;border-left:2px solid var(--rule-strong);padding-left:0}
+.branch{display:flex;flex-direction:column;padding:14px 0 14px 22px;position:relative;min-width:0}
+.branch + .branch{border-top:1px solid var(--rule)}
+.branch::before{content:"";position:absolute;left:0;top:28px;width:14px;height:2px;background:var(--rule-strong)}
+.branch-head{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap}
+.branch-label{font-size:16px;font-weight:600}
+.branch-sub{font-size:13px;color:var(--ink-faint)}
+.branch-direct{margin-top:8px;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.arrow{color:var(--ink-faint);font-family:var(--ff-mono);font-size:14px}
+
+.subtree{display:flex;flex-direction:column;margin-top:14px;
+  border-left:2px solid var(--rule);padding-left:0}
+.leaf{display:flex;align-items:baseline;gap:12px;flex-wrap:wrap;
+  padding:9px 0 9px 20px;position:relative}
+.leaf::before{content:"";position:absolute;left:0;top:20px;width:12px;height:1px;background:var(--rule)}
+.leaf-label{font-size:14.5px;min-width:200px;flex:1 1 200px}
+.leaf-note{font-size:13px;color:var(--ink-soft);flex:1 1 100%;padding-left:0}
+.pre-step{margin-top:20px;padding:14px 16px;background:var(--signal-soft);
+  border-radius:4px;font-size:13.5px;line-height:1.8;color:var(--ink)}
+
+/* ── 二択パネル ── */
+.pair{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+.panel{background:var(--surface);border:1px solid var(--rule);border-radius:4px;
+  padding:22px 24px;display:flex;flex-direction:column;gap:16px}
+.panel-q{font-family:var(--ff-mono);font-size:12px;font-weight:600;
+  letter-spacing:.08em;color:var(--signal)}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--rule)}
+.vs-col{padding:14px 14px 14px 0;display:flex;flex-direction:column;gap:9px}
+.vs-col + .vs-col{border-left:1px solid var(--rule);padding-left:16px;padding-right:0}
+.vs-title{font-family:var(--ff-mono);font-size:12.5px;font-weight:600;color:var(--accent)}
+.vs-col ul{margin:0;padding-left:16px;display:flex;flex-direction:column;gap:7px}
+.vs-col li{font-size:13.5px;line-height:1.7}
+.verdict{font-size:14px;line-height:1.8;padding-top:14px;border-top:1px solid var(--rule);color:var(--ink)}
+.verdict b{color:var(--signal);font-weight:600}
+
+/* ── 一覧表 ── */
+.table-wrap{overflow-x:auto;border:1px solid var(--rule);border-radius:4px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;min-width:720px;font-size:13.5px}
+thead th{
+  font-family:var(--ff-mono);font-size:11px;font-weight:600;letter-spacing:.1em;
+  text-transform:uppercase;color:var(--ink-faint);text-align:left;
+  padding:14px 16px;border-bottom:1px solid var(--rule-strong);white-space:nowrap;
+}
+tbody td{padding:14px 16px;border-bottom:1px solid var(--rule);vertical-align:top;line-height:1.75}
+tbody tr:last-child td{border-bottom:0}
+tbody tr.group-start td{border-top:2px solid var(--rule-strong)}
+td.out{font-family:var(--ff-mono);font-size:12.5px;color:var(--ink-soft);white-space:nowrap}
+td.when{color:var(--ink)}
+td.note{color:var(--ink-soft);font-size:12.5px}
+.group-tag{font-family:var(--ff-mono);font-size:10.5px;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--ink-faint);display:block;margin-bottom:6px}
+
+/* ── 注意 ── */
+.alert{border:1px solid var(--signal);border-radius:4px;background:var(--surface);
+  padding:24px 26px;display:flex;flex-direction:column;gap:16px}
+.alert-tag{font-family:var(--ff-mono);font-size:11px;font-weight:600;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--signal)}
+.alert p{font-size:14.5px}
+.quote{background:var(--surface-2);border-radius:3px;padding:12px 14px;
+  font-family:var(--ff-mono);font-size:12.5px;line-height:1.8;color:var(--ink);
+  overflow-x:auto}
+.fix{display:flex;flex-direction:column;gap:8px;font-size:14px}
+.fix-step{display:flex;gap:12px;align-items:baseline}
+.fix-n{font-family:var(--ff-mono);font-size:12px;color:var(--signal);font-weight:600;flex:0 0 auto}
+
+footer{border-top:1px solid var(--rule-strong);padding-top:20px;
+  font-size:13px;color:var(--ink-faint);display:flex;flex-direction:column;gap:6px}
+</style>
+
+<div class="page">
+
+  <header>
+    <div class="eyebrow">資料作成スキル · 10件</div>
+    <h1>どのスキルで資料を作るか</h1>
+    <p class="lede">出力形式・宛先・段階の3つが決まれば、行き先は1つに決まる。迷ったときはこの順で辿る。</p>
+    <div class="head-rule"></div>
+  </header>
+
+  <section>
+    <div class="sec-head">
+      <h2>決定フロー</h2>
+      <p class="sec-note">依頼の時点で形式が決まっているなら、フローを飛ばして直接そのスキルを名指しすればよい。決まっていないときだけ上から辿る。</p>
+    </div>
+
+    <div class="tree">
+      <div class="tree-q">Q. 何を作るか</div>
+      <div class="branches">
+
+        <div class="branch">
+          <div class="branch-head">
+            <span class="branch-label">スライド・プレゼン</span>
+            <span class="branch-sub">→ さらに「どの形で出すか」で分かれる</span>
+          </div>
+          <div class="subtree">
+            <div class="leaf">
+              <span class="leaf-label">.pptx ／ セブン-イレブンの公式テンプレ</span>
+              <span class="arrow">→</span><span class="skill">seven-eleven-pptx</span>
+            </div>
+            <div class="leaf">
+              <span class="leaf-label">.pptx ／ 汎用モダン（社外提案・研修・個人）</span>
+              <span class="arrow">→</span><span class="skill">ppt-build-standard</span>
+              <span class="leaf-note">設計図なしでゼロから凝ったデザインにするなら <span class="mono">pptx-pro</span></span>
+            </div>
+            <div class="leaf">
+              <span class="leaf-label">HTML 1枚（ブラウザで開く・PDF化も可）</span>
+              <span class="arrow">→</span><span class="skill">shiryo-slides</span>
+            </div>
+            <div class="leaf">
+              <span class="leaf-label">既存の .pptx を直す・中身を取り出す</span>
+              <span class="arrow">→</span><span class="skill">pptx</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="branch">
+          <div class="branch-head"><span class="branch-label">文書（Word・PDF）</span></div>
+          <div class="branch-direct">
+            <span class="arrow">→</span><span class="skill">docx</span>
+            <span class="branch-sub">最終形がPDFなら、生成後に <span class="mono">pdf</span> を通す</span>
+          </div>
+        </div>
+
+        <div class="branch">
+          <div class="branch-head"><span class="branch-label">表・データ（Excel）</span></div>
+          <div class="branch-direct">
+            <span class="arrow">→</span><span class="skill">xlsx</span>
+            <span class="branch-sub">.csv / .tsv の整形もここ</span>
+          </div>
+        </div>
+
+        <div class="branch">
+          <div class="branch-head"><span class="branch-label">社内向けのテキスト</span>
+            <span class="branch-sub">週次報告・ニュースレター・FAQ・通達</span></div>
+          <div class="branch-direct">
+            <span class="arrow">→</span><span class="skill">sej-internal-comms</span>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="pre-step">
+        <strong>材料がテーマ1行しかない場合</strong>は、生成に入る前に <span class="mono">ppt-structure-design</span> で構成を固めるほうが速い。議事録やメモがあるなら不要 — 生成スキル側が構成設計を持っているので二度手間になる。<strong>材料の量で決める。</strong>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>迷いやすい二択</h2>
+      <p class="sec-note">実際に迷うのはこの2つだけ。どちらも「好み」ではなく、外部条件で決まる。</p>
+    </div>
+
+    <div class="pair">
+
+      <div class="panel">
+        <div class="panel-q">.pptx か HTML か</div>
+        <div class="vs">
+          <div class="vs-col">
+            <div class="vs-title">.pptx が要る</div>
+            <ul>
+              <li>受け取った人が中身を編集する</li>
+              <li>提出形式として指定されている</li>
+              <li>既存のパワポに差し込む</li>
+              <li>社内の正式フォーマットに乗せる</li>
+            </ul>
+          </div>
+          <div class="vs-col">
+            <div class="vs-title">HTML で足りる</div>
+            <ul>
+              <li>見るだけ・投影するだけ</li>
+              <li>形式の指定がない</li>
+              <li>単体で完結してよい</li>
+              <li>PDFで配れば済む</li>
+            </ul>
+          </div>
+        </div>
+        <p class="verdict"><b>提出形式の指定があるかを先に確認する。</b>ここを外すと作り直しになり、いちばん高くつく。指定がないなら <span class="mono">shiryo-slides</span> を第一候補にしてよい — 生成後に自分でスクリーンショットを撮って直す工程があるぶん、はみ出しや整列崩れが残りにくい。</p>
+      </div>
+
+      <div class="panel">
+        <div class="panel-q">SEJテンプレか 汎用か</div>
+        <div class="vs">
+          <div class="vs-col">
+            <div class="vs-title">seven-eleven-pptx</div>
+            <ul>
+              <li>SEJの名前で外に出る</li>
+              <li>社内の正式な提出物</li>
+              <li>ブランドガイドライン準拠が要る</li>
+            </ul>
+          </div>
+          <div class="vs-col">
+            <div class="vs-title">ppt-build-standard</div>
+            <ul>
+              <li>社外提案・他社との共同</li>
+              <li>研修・勉強会の教材</li>
+              <li>個人プロジェクト</li>
+            </ul>
+          </div>
+        </div>
+        <p class="verdict"><b>宛先で決まる。</b>作り手の好みではない。<span class="mono">seven-eleven-pptx</span> はIRレポート調の配色（青・グレー・淡い茶の3系統）と「白抜き文字を使わない」規約を持っているので、SEJの資料として並べたときに揃う。</p>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>10スキルの一覧</h2>
+      <p class="sec-note">同じ .pptx を作るスキルが4つあるので、その違いは「出力」ではなく「入力と場面」で見る。</p>
+    </div>
+
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr>
+            <th>スキル</th><th>出力</th><th>使うとき</th><th>効きどころ</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="group-start">
+            <td><span class="group-tag">スライド</span><span class="skill">shiryo-slides</span></td>
+            <td class="out">HTML 1枚<br>16:9</td>
+            <td class="when">社内資料・提案資料。形式の指定がないとき</td>
+            <td class="note">5テーマから選ぶ。生成後にPlaywrightで撮って自分で直す。既存スライドの修正・PDF化も担当</td>
+          </tr>
+          <tr>
+            <td><span class="skill">seven-eleven-pptx</span></td>
+            <td class="out">.pptx</td>
+            <td class="when">SEJの名前で出す資料</td>
+            <td class="note">コーポレートテンプレ。IRレポート調の配色・白抜き文字なし</td>
+          </tr>
+          <tr>
+            <td><span class="skill">ppt-build-standard</span></td>
+            <td class="out">.pptx</td>
+            <td class="when">SEJブランドを載せない案件</td>
+            <td class="note">構成設計の出力をそのまま入力に取る。Phase1〜6で完成まで通す</td>
+          </tr>
+          <tr>
+            <td><span class="skill">pptx-pro</span></td>
+            <td class="out">.pptx</td>
+            <td class="when">ゼロから凝ったデザインで作る</td>
+            <td class="note">アニメーション・タイポグラフィ・メディア配置に強い</td>
+          </tr>
+          <tr>
+            <td><span class="skill">pptx</span></td>
+            <td class="out">.pptx / .potx</td>
+            <td class="when">既存ファイルを読む・直す・抽出する</td>
+            <td class="note">入出力が .pptx そのもののとき。テンプレート適用・結合・分割・ノート操作</td>
+          </tr>
+          <tr class="group-start">
+            <td><span class="group-tag">前段</span><span class="skill">ppt-structure-design</span></td>
+            <td class="out">設計図</td>
+            <td class="when">構成・ストーリーだけ先に固めたい</td>
+            <td class="note">目的／聴衆／キーメッセージ → ナラティブ → 各スライドの指針。材料が薄いときほど効く</td>
+          </tr>
+          <tr class="group-start">
+            <td><span class="group-tag">文書</span><span class="skill">docx</span></td>
+            <td class="out">.docx / .dotx</td>
+            <td class="when">Word文書・報告書・letterhead</td>
+            <td class="note">目次・見出し・ページ番号。変更履歴やコメントの操作も</td>
+          </tr>
+          <tr>
+            <td><span class="skill">xlsx</span></td>
+            <td class="out">.xlsx / .csv</td>
+            <td class="when">表・データ・数式・グラフ</td>
+            <td class="note">崩れた表データの整形にも。成果物がスプレッドシートのときだけ</td>
+          </tr>
+          <tr>
+            <td><span class="skill">pdf</span></td>
+            <td class="out">.pdf</td>
+            <td class="when">結合・分割・抽出・OCR・フォーム記入</td>
+            <td class="note">既存PDFの操作が中心。新規PDFは docx や shiryo-slides から出すほうが速い</td>
+          </tr>
+          <tr class="group-start">
+            <td><span class="group-tag">社内文書</span><span class="skill">sej-internal-comms</span></td>
+            <td class="out">テキスト</td>
+            <td class="when">週次報告・ニュースレター・FAQ・通達</td>
+            <td class="note">OP情報チームの発信物。スライドではなく文面が成果物のとき</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section>
+    <div class="sec-head">
+      <h2>ひとつ直しておきたいこと</h2>
+    </div>
+
+    <div class="alert">
+      <div class="alert-tag">トリガーの衝突</div>
+      <p><span class="mono">seven-eleven-pptx</span> の説明文には、こう書かれている。</p>
+      <div class="quote">Osamuさんからのプレゼン作成依頼には常にこのスキルを使用すること。</div>
+      <p>一方 <span class="mono">shiryo-slides</span> は「資料を作って」「スライドにして」で発火する。この2つは正面からぶつかっていて、<strong>依頼の言い方次第でどちらが動くかが揺れる</strong>。HTMLで欲しいときにパワポが出てくる、あるいはその逆が起きる。</p>
+      <div class="fix">
+        <div class="fix-step"><span class="fix-n">01</span><span>claude.ai のスキル設定を開く（<span class="mono">~/.claude/skills/synced/</span> は同期される領域なので、手元で直しても次回の同期で消える）</span></div>
+        <div class="fix-step"><span class="fix-n">02</span><span><span class="mono">seven-eleven-pptx</span> の説明文の末尾を、条件つきに書き換える</span></div>
+      </div>
+      <div class="quote">Osamuさんから <strong>SEJの名前で出す資料</strong> の作成を依頼されたときは常にこのスキルを使用すること。<br>形式が指定されていない場合や、社外提案・研修・個人プロジェクトの場合は shiryo-slides / ppt-build-standard を検討する。</div>
+      <p>これで「常に」の範囲が宛先で切れるので、ルーターや <span class="mono">shiryo-slides</span> と競合しなくなる。</p>
+    </div>
+  </section>
+
+  <footer>
+    <div>ルータースキル <span class="mono">shiryo-router</span> を入れてあるので、形式が決まっていないときは「資料作って」だけで選択肢が出る。</div>
+    <div>このページは手元のスキル構成を写したもの。スキルを増減したら更新すること。</div>
+  </footer>
+
+</div>

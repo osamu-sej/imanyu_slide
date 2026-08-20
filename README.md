@@ -51,6 +51,24 @@ npx playwright install chromium   # 約 400MB
 改行を直すと、フォントが届く環境では逆に崩れます。詳細は
 [本家 README §7](https://github.com/code4biz/shiryo-slides-kit#readme) を参照してください。
 
+## 資料作成スキルの使い分け
+
+資料作成系のスキルが10個あり、依頼の言い方によってどれが動くか揺れるため、
+入口をひとつにするルータースキルと早見表を置いています。
+
+- `.claude/skills/shiryo-router/` — 「資料作って」で選択肢が出て、適切なスキルへ橋渡しする
+- `docs/shiryo-skill-guide.html` — 決定フロー・迷いやすい二択・10スキルの一覧
+
+早見表は Artifact として公開済みです。ローカルで見る場合はブラウザで直接開いてください。
+
+### 既知の衝突
+
+`seven-eleven-pptx` の説明文に「Osamuさんからのプレゼン作成依頼には常にこのスキルを
+使用すること」とあり、`shiryo-slides`（「資料を作って」「スライドにして」で発火）と
+正面からぶつかっています。`~/.claude/skills/synced/` は claude.ai から同期される領域で
+手元の編集が消えるため、直すなら claude.ai のスキル設定側で説明文を条件つきに
+書き換えてください。具体的な文面は早見表の最後に載せています。
+
 ## 由来
 
 `.claude/skills/shiryo-slides/` は上流リポジトリの `skills/shiryo-slides/` を
