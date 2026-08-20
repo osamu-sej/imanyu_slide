@@ -1,0 +1,6 @@
+node_modules/
+*.log
+
+# スライド生成時の中間物
+shots/
+*.tmp.html
